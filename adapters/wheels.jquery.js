@@ -1,9 +1,9 @@
 /*
  * jquery-ujs
  *
- * http://github.com/wheels/jquery-ujs/blob/master/src/wheels.js
+ * http://github.com/rails/jquery-ujs/blob/master/src/rails.js
  *
- * This wheels.js file supports jQuery 1.4.3 and 1.4.4 .
+ * This wheels.js file supports jQuery 1.11.3
  *
  * Edited by Raul Riera for ColdFusion on Wheels http://cfwheels.org
  */
@@ -90,12 +90,13 @@ jQuery(function ($) {
     /**
      * remote handlers
      */
-    $('form[data-remote]').live('submit.wheels', function (e) {
+    $(document).on('submit.wheels', 'form[data-remote]',  function (e) {
         $(this).callRemote();
         e.preventDefault();
+        return false;
     });
 
-    $('a[data-remote],input[data-remote]').live('click.wheels', function (e) {
+    $(document).on('click.wheels', 'a[data-remote],input[data-remote]', function (e) {
         $(this).callRemote();
         e.preventDefault();
     });
@@ -105,7 +106,7 @@ jQuery(function ($) {
      *
      * <a href="/users/delete/5" data-confirm="Are you sure?">Delete</a>
      */
-    $('a[data-method]:not([data-remote])').live('click.wheels', function (e){
+    $(document).on('click.wheels','a[data-method]:not([data-remote])', function (e){
         var link = $(this),
             href = link.attr('href'),
             method = link.attr('data-method'),
@@ -140,22 +141,15 @@ jQuery(function ($) {
         });
     };
 
-    $(disable_with_form_remote_selector).live('ajax:before.wheels', disable_with_input_function);
-    $(disable_with_form_not_remote_selector).live('submit.wheels', disable_with_input_function);
+    $(document).on('ajax:before.wheels',disable_with_form_remote_selector), disable_with_input_function);
+    $(document).on('submit.wheels',disable_with_form_not_remote_selector), disable_with_input_function);
 
-    $(disable_with_form_remote_selector).live('ajax:complete.wheels', function () {
+    $(document).on('ajax:complete.wheels',disable_with_form_remote_selector), function () {
         $(this).find(disable_with_input_selector).each(function () {
             var input = $(this);
             input.removeAttr('disabled')
                  .val(input.data('enable-with'));
         });
     });
-
-    var jqueryVersion = $().jquery;
-
-	if (!( (jqueryVersion === '1.4.3') || (jqueryVersion === '1.4.4'))){
-		alert('This wheels.js does not support the jQuery version you are using. Please read documentation.');
-	}
-
 
 });
