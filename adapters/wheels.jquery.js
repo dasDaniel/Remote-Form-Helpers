@@ -3,7 +3,7 @@
  *
  * http://github.com/rails/jquery-ujs/blob/master/src/rails.js
  *
- * This wheels.js file supports jQuery 1.11.3
+ * This wheels.js file supports jQuery 1.4.3 and 1.4.4 .
  *
  * Edited by Raul Riera for ColdFusion on Wheels http://cfwheels.org
  */
@@ -141,10 +141,10 @@ jQuery(function ($) {
         });
     };
 
-    $(document).on('ajax:before.wheels',disable_with_form_remote_selector), disable_with_input_function);
-    $(document).on('submit.wheels',disable_with_form_not_remote_selector), disable_with_input_function);
+    $(document).on('ajax:before.wheels',disable_with_form_remote_selector, disable_with_input_function);
+    $(document).on('submit.wheels',disable_with_form_not_remote_selector, disable_with_input_function);
 
-    $(document).on('ajax:complete.wheels',disable_with_form_remote_selector), function () {
+    $(document).on('ajax:complete.wheels',disable_with_form_remote_selector, function () {
         $(this).find(disable_with_input_selector).each(function () {
             var input = $(this);
             input.removeAttr('disabled')
